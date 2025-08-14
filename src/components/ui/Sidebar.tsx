@@ -1,8 +1,9 @@
 'use client';
 
+import { Logout } from "@/helpers";
 import { BookOpenCheck, ChartBarIncreasing, CopyMinus, LogOut, Menu } from "lucide-react"
 import Link from "next/link";
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { useState } from "react"
 
 
@@ -13,6 +14,8 @@ export const SideBar = () => {
 
   const [isOpen, setIsOpen] = useState(true)
   const pathName = usePathname();
+
+  const router = useRouter();
 
 
 
@@ -48,12 +51,12 @@ export const SideBar = () => {
                     </Link>
               </div>
               <div className="mt-auto">
-                <Link key={"Logout"} href={ "/logout" }>
+                <button key={"Logout"} onClick={()=> Logout(router)}>
                         <div className={`flex items-center p-4 text-sm font-medium rounded-lg hover:bg-[#2f2f2f] transition-colors mb-2 ${ pathName === "/logout" ? "bg-[#2f2f2f]" : "" } `}>
                             <LogOut size={20} style={{minWidth: "20px"}} />
                             <span className={`ml-4 whitespace-nowrap transition-all duration-300 overflow-hidden ${ isOpen ? 'opacity-100 w-auto' : 'opacity-0 w-0' }`} >{ "Logout" }</span>
                         </div>
-                    </Link>
+                    </button>
               </div>
                 
           </nav>

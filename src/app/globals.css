@@ -3,6 +3,19 @@
 :root {
   --background: #121212;
   --foreground: #ffffff;
+  --second: #1E1E1E;
+  --raisedSurface: #2A2A2A;
+  --borders: #333333;
+  --maintext: #FFFFFF;
+  --secondText: #E0E0E0;
+  --disabledText: #B0B0B0;
+  --primary: #BB86FC;
+  --secondary: #03DAC6;
+  --hover: #1DE9B6;
+  --alert: #CF6679;
+  --success: #03C988;
+  --warning: #FFC107;
+  --info: #2196F3;
 }
 
 @theme inline {
