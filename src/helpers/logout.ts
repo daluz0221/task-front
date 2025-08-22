@@ -29,6 +29,7 @@ export const Logout = async (router: AppRouterInstance) => {
 
 
     clearAuth();
+    
 
     router.push('/auth/login')
 

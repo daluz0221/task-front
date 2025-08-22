@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthStore } from "@/store/auth-store";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
@@ -29,9 +29,11 @@ type LoginData = {
 
 export default function LoginPage() {
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
+  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
 
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("redirect") || "/"
   
       
   const { accessToken } = useAuthStore();
@@ -73,7 +75,8 @@ export default function LoginPage() {
                 const { access, refresh, user  } = responseData;
                 
                 useAuthStore.getState().setTokensAndUser(access, refresh, user)
-                router.push('/')
+                document.cookie = `accessToken=${access}; path=/;`
+                router.push(callbackUrl)
                 
     
             } catch (error) {

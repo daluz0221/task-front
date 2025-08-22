@@ -37,7 +37,7 @@ export const SideBar = () => {
                             <span className={`ml-4 whitespace-nowrap transition-all duration-300 overflow-hidden ${ isOpen ? 'opacity-100 w-auto' : 'opacity-0 w-0' }`} >{ "categories" }</span>
                         </div>
                     </Link>
-                    <Link key={"tasks"} href={ "tasks" }>
+                    <Link key={"tasks"} href={ "/tasks" }>
                         <div className={`flex items-center p-4 text-sm font-medium rounded-lg hover:bg-[#2f2f2f] transition-colors mb-2 ${ pathName === "/tasks" ? "bg-[#2f2f2f]" : "" } `}>
                             <BookOpenCheck size={20} style={{minWidth: "20px"}} />
                             <span className={`ml-4 whitespace-nowrap transition-all duration-300 overflow-hidden ${ isOpen ? 'opacity-100 w-auto' : 'opacity-0 w-0' }`} >{ "Tasks" }</span>

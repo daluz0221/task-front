@@ -1,4 +1,4 @@
-import { Header } from "@/components";
+import { Header, Protected } from "@/components";
 import { SideBar } from "@/components";
 
 
@@ -10,6 +10,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <Protected>
 
     <div className="flex h-screen overflow-hidden">
       <SideBar />
@@ -24,5 +25,6 @@ export default function RootLayout({
       </div>
     </div>
 
+    </Protected>
   );
 }
