@@ -49,7 +49,7 @@ export const useCategoryStore = create<CategoryState>((set) => ({
         try {
             const res = await fetchWithAuth('https://youragenda.app/api/categories/list');
             const data = await res.json();
-            console.log({data});
+            
             
             set({categories: data})
         } catch (error) {
@@ -112,7 +112,7 @@ export const useCategoryStore = create<CategoryState>((set) => ({
             return true
 
         } catch (error) {
-            console.log(error);
+            console.log(error);https://youragenda.app
             
             return false
         }

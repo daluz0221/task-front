@@ -18,7 +18,7 @@ export const CreateCategoryForm = ({ onSuccess, onClose }:Props) => {
     const addCategory = useCategoryStore((state) => state.addCategory)
 
     const onSubmit = async (data: Inputs) => {
-        console.log({data});
+    
         const ok = await addCategory(data.name);
         console.log(ok == "ya existe");
         
