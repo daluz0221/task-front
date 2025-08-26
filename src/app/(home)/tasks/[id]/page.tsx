@@ -1,7 +1,7 @@
 "use client";
 
 
-import { CardSubTask, FloatTaskButton } from "@/components";
+import { CardSubTask } from "@/components";
 import { formatDate } from "@/helpers";
 import { TaskStore, useTaskStore } from "@/store/task-store";
 import { useParams } from "next/navigation";

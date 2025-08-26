@@ -2,7 +2,6 @@
 import { Edit, Plus, Trash2 } from 'lucide-react';
 import React, { useState } from 'react'
 import { CreateModal } from '../modals';
-import { CreateCategoryForm } from '../forms/CreateCategoryForm';
 import { CreateTaskForm, DeleteCategoryForm, UpdateCategoryForm } from '../forms';
 
 

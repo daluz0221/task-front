@@ -2,7 +2,7 @@
 import { Edit, Plus, Trash2 } from 'lucide-react';
 import React, { useState } from 'react'
 import { CreateModal } from '../modals';
-import { CreateSubTaskForm, CreateTaskForm, DeleteCategoryForm, UpdateCategoryForm } from '../forms';
+import { CreateSubTaskForm, DeleteCategoryForm, UpdateCategoryForm } from '../forms';
 
 
 interface Props {

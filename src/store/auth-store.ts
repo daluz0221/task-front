@@ -65,20 +65,3 @@ export const useAuthStore = create<AuthState>()(
         }
     )
 )
-
-function isAccessTokenExpired(token: string | null): boolean {
-  if (!token) return true;
-
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    const exp = payload.exp;
-
-    if (!exp) return true;
-
-    const now = Math.floor(Date.now() / 1000); // segundos
-    return exp < now;
-  } catch (e) {
-    console.error('❌ Error decodificando token:', e);
-    return true;
-  }
-}

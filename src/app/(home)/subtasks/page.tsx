@@ -1,6 +1,6 @@
 "use client";
 
-import { FloatSubTaskButton, FloatTaskButton, SubTaskCard } from "@/components";
+import { FloatSubTaskButton, SubTaskCard } from "@/components";
 import { useSubTaskStore } from "@/store/subtask-store";
 import { useEffect, useRef } from "react";
 
