@@ -60,7 +60,7 @@ export default function RegisterPage() {
         };
 
         try {
-            const response = await fetch('https://youragenda.app/api/auth/register/', {
+            const response = await fetch('https://api.youragenda.app/api/auth/register/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

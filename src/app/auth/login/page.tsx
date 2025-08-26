@@ -53,7 +53,7 @@ const Content = () => {
         }
     
             try {
-                const response = await fetch('https://youragenda.app/api/auth/login/', {
+                const response = await fetch('https://api.youragenda.app/api/auth/login/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

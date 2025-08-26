@@ -32,7 +32,7 @@ export const useSubTaskStore = create<SubTaskState>((set) => ({
     subtasks: [],
     fetchSubTasks: async () => {
         try {
-            const res = await fetchWithAuth('https://youragenda.app/api/subtasks/list');
+            const res = await fetchWithAuth('https://api.youragenda.app/api/subtasks/list');
             const data = await res.json();
 
             set({subtasks: data})
@@ -42,13 +42,13 @@ export const useSubTaskStore = create<SubTaskState>((set) => ({
     },
     addSubTask: async (newSubtask: newSubTask) => {
             try {
-                const res = await fetchWithAuth('https://youragenda.app/api/subtasks/', {
+                const res = await fetchWithAuth('https://api.youragenda.app/api/subtasks/', {
                     method: "POST",
                     body: JSON.stringify(newSubtask)
                 })
                 
                 const data = await res.json();
-                console.log({data});
+              
 
                 if (data.message == "Sub tarea creada con éxito"){
                 

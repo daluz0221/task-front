@@ -53,7 +53,7 @@ export const useTaskStore = create<TaskState>((set) => ({
     tasks: [],
     fetchTasks: async ()  => {
         try {
-            const res = await fetchWithAuth('https://youragenda.app/api/tasks/list');
+            const res = await fetchWithAuth('https://api.youragenda.app/api/tasks/list');
             const data = await res.json();
 
             set({tasks: data})
@@ -63,7 +63,7 @@ export const useTaskStore = create<TaskState>((set) => ({
     },
     fetchTaskById: async(id: string) => {
         try {
-            const res = await fetchWithAuth(`https://youragenda.app/api/tasks/list/${id}`);
+            const res = await fetchWithAuth(`https://api.youragenda.app/api/tasks/list/${id}`);
             console.log({res});
             
             if (!res.ok) throw new Error("No se pudo obtener la tarea");
@@ -78,7 +78,7 @@ export const useTaskStore = create<TaskState>((set) => ({
     },
     addTask: async(task: newTask) => {
         try {
-            const res = await fetchWithAuth('https://youragenda.app/api/tasks/', {
+            const res = await fetchWithAuth('https://api.youragenda.app/api/tasks/', {
                 method: "POST",
                 body: JSON.stringify(task)
             })

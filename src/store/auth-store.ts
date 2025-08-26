@@ -37,7 +37,7 @@ export const useAuthStore = create<AuthState>()(
                 if (!refresh) return false;
 
                 try {
-                    const response = await fetch('https://youragenda.app/api/auth/refresh/', {
+                    const response = await fetch('https://api.youragenda.app/api/auth/refresh/', {
                         method: 'POST',
                         headers:{ 'Content-Type': 'application/json' },
                         body: JSON.stringify({refresh})
