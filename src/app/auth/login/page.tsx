@@ -2,7 +2,7 @@
 
 import { useAuthStore } from "@/store/auth-store";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 
@@ -26,9 +26,8 @@ type LoginData = {
     user: User
 }
 
-
-export default function LoginPage() {
-
+const Content = () => {
+  
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
 
   const router = useRouter();
@@ -131,4 +130,13 @@ export default function LoginPage() {
         </div>
     </div>
   );
+}
+
+
+export default function LoginPage() {
+return(
+    <Suspense fallback={<div>Cargando...</div>} >
+        <Content />
+    </Suspense>
+)
 }

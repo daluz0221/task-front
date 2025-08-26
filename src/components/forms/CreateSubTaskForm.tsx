@@ -1,5 +1,6 @@
 "use client"
 import { useCategoryStore } from "@/store/category-store";
+import { useSubTaskStore } from "@/store/subtask-store";
 import { useTaskStore } from "@/store/task-store";
 import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
@@ -10,7 +11,7 @@ type Inputs = {
     title: string;
     description: string;
     deadline: string;
-    category_id: string;
+    task_id: string;
 }
 
 interface Props {
@@ -19,25 +20,25 @@ interface Props {
 }
 
 
-export const CreateTaskForm = ({ onSuccess, onClose }:Props) => {
+export const CreateSubTaskForm = ({ onSuccess, onClose }:Props) => {
 
    const { register, control, handleSubmit, formState: {errors}, reset } =  useForm<Inputs>();
 
-   const {categories} = useCategoryStore();
-   const addTask = useTaskStore((state) => state.addTask)
+   const {tasks} = useTaskStore();
+   const addSubTask = useSubTaskStore((state) => state.addSubTask)
 
    const onSubmit = async(data: Inputs) => {
-     console.log({data});
-     const ok = await addTask(data);
+     
+     const ok = await addSubTask(data);
      if (ok == "ya existe"){
-        console.log("Tarea ya existe");
+        console.log("SubTarea ya existe");
         
      } else if (ok){
         reset();
 
         onSuccess();
      } else {
-        console.log("Error al crear la tarea");
+        console.log("Error al crear la subtarea");
         
      }
 
@@ -47,7 +48,7 @@ export const CreateTaskForm = ({ onSuccess, onClose }:Props) => {
     <div className="min-h-screen flex items-center justify-center w-100">
         <div className="bg-[var(--borders)] shadow-lg rounded-lg w-full max-w-md p-8">
             
-            <h2>Nueva tarea</h2>
+            <h2>Nueva subtarea</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mt-4">
                     <label htmlFor="titulo" className="block text-sm font-medium mb-2">
@@ -62,7 +63,7 @@ export const CreateTaskForm = ({ onSuccess, onClose }:Props) => {
                     <label htmlFor="Descripción" className="block text-sm font-medium mb-2">
                         Descripción
                     </label>
-                    <input {...register("description", {required: "El campo es obligatorio" })} className="mt-1 block w-full px-3 py-2 border rounded-md" />
+                    <input type="text" {...register("description", {required: "El campo es obligatorio" })} className="mt-1 block w-full px-3 py-2 border rounded-md" />
                     {errors.description && (
                         <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
                     )}
@@ -101,18 +102,18 @@ export const CreateTaskForm = ({ onSuccess, onClose }:Props) => {
                 <div className="mt-4">
                     <label className="block text-sm font-medium text-gray-200 mb-2">Categoría</label>
                     <select
-                    {...register("category_id", { required: "La categoría es obligatoria" })}
+                    {...register("task_id", { required: "La categoría es obligatoria" })}
                     className="w-full rounded-lg bg-gray-900 text-white p-2 border border-gray-700"
                     >
-                    <option value="">Selecciona una categoría</option>
-                    {categories.map((cat) => (
-                        <option key={cat.id} value={cat.id}>
-                        {cat.name}
+                    <option value="">Selecciona una tarea</option>
+                    {tasks.map((task) => (
+                        <option key={task.id} value={task.id}>
+                        {task.title}
                         </option>
                     ))}
                     </select>
-                    {errors.category_id && (
-                        <p className="text-red-500 text-sm mt-1">{errors.category_id.message}</p>
+                    {errors.task_id && (
+                        <p className="text-red-500 text-sm mt-1">{errors.task_id.message}</p>
                     )}
                 </div>
 
