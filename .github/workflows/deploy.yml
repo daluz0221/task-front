@@ -43,8 +43,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /var/www/frontend
-            rm -rf .next node_modules public package.json
+            rm -rf .next node_modules public package.json ecosystem.config.js
             tar -xzf release.tar.gz
-            rm release.tar.gz
-            pm2 delete frontend || true
-            pm2 start ecosystem.config.js
+            pm2 reload ecosystem.config.js --update-env
