@@ -7,7 +7,7 @@ const logoutFromServer = async(refreshToken: string, accessToken: string|null) =
 
     
     try {
-        await fetch("https://api.youragenda.app/api/auth/logout/", {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout/`, {
             method: 'POST',
             headers: { "Content-Type": "application/json",  Authorization: `Bearer ${accessToken}`},
             body: JSON.stringify({refresh: refreshToken})

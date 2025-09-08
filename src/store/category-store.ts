@@ -47,7 +47,7 @@ export const useCategoryStore = create<CategoryState>((set) => ({
     categories: [],
     fetchCategories: async () => {
         try {
-            const res = await fetchWithAuth('https://api.youragenda.app/api/categories/list');
+            const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/api/categories/list`);
             const data = await res.json();
             
             
@@ -58,7 +58,7 @@ export const useCategoryStore = create<CategoryState>((set) => ({
     },
     addCategory: async (name) => {
         try {
-            const res = await fetchWithAuth('https://api.youragenda.app/api/categories/', {
+            const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/api/categories/`, {
                 method: "POST", 
                 body: JSON.stringify({
                     name
@@ -88,7 +88,7 @@ export const useCategoryStore = create<CategoryState>((set) => ({
     },
     fetchCategoryById: async(id: string)=>{
         try {
-            const res = await fetchWithAuth(`https://api.youragenda.app/api/categories/category/${ id }`);
+            const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/api/categories/category/${ id }`);
             if (!res.ok) throw new Error("No se pudo obtener la categoría");
             const data = await res.json();
 
@@ -102,7 +102,7 @@ export const useCategoryStore = create<CategoryState>((set) => ({
     },
     deleteCategory: async (id: string) => {
         try {
-            const res = await fetchWithAuth(`https://api.youragenda.app/api/categories/delete/${id}`, {
+            const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/api/categories/delete/${id}`, {
                 method: "PUT"
             })
             const data = await res.json()
@@ -120,7 +120,7 @@ export const useCategoryStore = create<CategoryState>((set) => ({
     updateCategory: async({id, name}: {id: string, name: string}) => {
         
         try {
-            const res = await fetchWithAuth(`https://api.youragenda.app/api/categories/update/${id}`, {
+            const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/api/categories/update/${id}`, {
                 method: "PUT",
                 body: JSON.stringify({name})
             });
