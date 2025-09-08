@@ -3,6 +3,8 @@
 
 
 import { SubTaskStore, useSubTaskStore } from "@/store/subtask-store";
+import { TaskStore, useTaskStore } from "@/store/task-store";
+import Link from "next/link";
 
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -11,7 +13,9 @@ import { useEffect, useState } from "react";
 export default function SubTaskDetailPage() {
 
   const { id } = useParams<{ id: string }>();
+  const { fetchTaskById } = useTaskStore();
   const { subtasks } = useSubTaskStore();
+  const [task, setTask] = useState<TaskStore>();
   const [subTask, setSubTask] = useState<SubTaskStore>()
   const [loading, setLoading] = useState(true)
 
@@ -19,11 +23,13 @@ export default function SubTaskDetailPage() {
   useEffect(() => {
     const fetchTaskData = async () => {
       try {
-        subtasks.filter(task => {
+        subtasks.filter(async(task) => {
           if (task.id === id) {
+            const res = await fetchTaskById(task.task_id);
+            setTask(res)
             return setSubTask(task)
           }
-        })
+        });
       } catch (error) {
         console.log("error con la subtarea pedida", error);
 
@@ -33,7 +39,7 @@ export default function SubTaskDetailPage() {
     }
 
     fetchTaskData()
-  }, [id, subtasks])
+  }, [id, subtasks, fetchTaskById])
 
   console.log({ subTask });
 
@@ -47,6 +53,7 @@ export default function SubTaskDetailPage() {
 
   return (
     <div className="max-w-7xl mx-auto pt-4 pb-4 pr-4 lg:px-8">
+      <h3 className="py-4">Tarea padre: <Link href={`/tasks/${task?.id}`}>{ task?.title }</Link></h3>
       <h2 className="py-4 text-center text-2xl font-bold">{subTask.title}</h2>
       <div className="grid grid-cols-1">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
