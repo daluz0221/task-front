@@ -3,49 +3,45 @@ name: Deploy Frontend
 on:
   push:
     branches:
-      - master   # cambia si tu rama principal se llama distinto
+      - master   # o la rama que uses para producción
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'npm'
-
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --omit=dev
 
-      - name: Build project
+      - name: Build Next.js
         run: npm run build
 
-      # Empaquetar el build y archivos necesarios
-      - name: Prepare artifacts
-        run: tar -czf build.tar.gz out
+      - name: Prepare artifact
+        run: |
+          mkdir -p release
+          cp -R .next package.json ecosystem.config.js node_modules public release/
+          tar -czf release.tar.gz -C release .
 
-      - name: Copy files to server
+      - name: Copy to server
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.DEPLOY_HOST }}
-          username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "build.tar.gz"
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: "release.tar.gz"
           target: "/var/www/frontend"
 
-      - name: Deploy static files
-        uses: appleboy/ssh-action@v0.1.8
+      - name: Deploy on server
+        uses: appleboy/ssh-action@v0.1.7
         with:
-          host: ${{ secrets.DEPLOY_HOST }}
-          username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /var/www/frontend
-            rm -rf *
-            tar -xzf build.tar.gz --strip-components=1
-            rm build.tar.gz
+            rm -rf .next node_modules public package.json ecosystem.config.js
+            tar -xzf release.tar.gz
+            pm2 reload ecosystem.config.js --update-env
