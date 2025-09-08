@@ -56,22 +56,32 @@ export default function TaskDetailPage() {
                     { task.description }
                   </p>
                 </div>
-                <div className="flex p-4">
-                  <span className="font-bold text-lg pr-2">
-                    Dificultades: 
-                  </span>
-                  <p className="pt-1">
-                    { task.dificulties }
-                  </p>
-                </div>
-                <div className="flex p-4">
+                {
+                  task.dificulties && (
+                  <div className="flex p-4">
+                    <span className="font-bold text-lg pr-2">
+                      Dificultades: 
+                    </span>
+                    <p className="pt-1">
+                      { task.dificulties }
+                    </p>
+                  </div>
+                  )
+                }
+
+              {
+                task.solution && (
+                   <div className="flex p-4">
                   <span className="font-bold text-lg pr-2">
                     Soluciones: 
                   </span>
                   <p className="pt-1">
-                    { task.solution }
+                    { task.solution } 
                   </p>
                 </div>
+                ) 
+              }
+               
               </div>
 
               <div className='bg-[#1e1e1e] flex-col backdrop-blur-md overflow-hidden items-center shadow-lg rounded-xl border duration-300 transition ease border-[#1f1f1f] text-center'>
@@ -118,7 +128,6 @@ export default function TaskDetailPage() {
                     }
                     </div>
           </div>
-            {/* <FloatTaskButton addModal="create" colorButton=""/> */}
       </div>
   )
 }
