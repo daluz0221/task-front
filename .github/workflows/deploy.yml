@@ -3,7 +3,7 @@ name: Deploy Frontend
 on:
   push:
     branches:
-      - master   # o la rama que uses para prod
+      - master   # cambia si tu rama principal se llama distinto
 
 jobs:
   build-and-deploy:
@@ -25,12 +25,12 @@ jobs:
       - name: Build project
         run: npm run build
 
-      # Instala dependencias de prod y empaqueta todo
+      # Empaquetar el build y archivos necesarios
       - name: Prepare artifacts
         run: |
-          npm ci --omit=dev
-          tar -czf build.tar.gz .next public package.json node_modules ecosystem.config.js
+          tar -czf build.tar.gz .next public package.json package-lock.json ecosystem.config.js
 
+      # Copiar al servidor
       - name: Copy files to server
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -40,6 +40,7 @@ jobs:
           source: "build.tar.gz"
           target: "/var/www/frontend"
 
+      # Extraer, instalar deps y reiniciar PM2
       - name: Restart PM2
         uses: appleboy/ssh-action@v0.1.8
         with:
@@ -50,4 +51,5 @@ jobs:
             cd /var/www/frontend
             tar -xzf build.tar.gz
             rm build.tar.gz
+            npm ci --omit=dev
             pm2 reload ecosystem.config.js --update-env
