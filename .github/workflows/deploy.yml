@@ -3,7 +3,7 @@ name: Deploy Frontend
 on:
   push:
     branches:
-      - main   # o la rama que uses para prod
+      - master   # o la rama que uses para prod
 
 jobs:
   build-and-deploy:
