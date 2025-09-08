@@ -3,7 +3,7 @@ name: Deploy Frontend
 on:
   push:
     branches:
-      - master   # o la rama que uses para producción
+      - master   # rama para producción
 
 jobs:
   build-and-deploy:
@@ -14,14 +14,14 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install dependencies
-        run: npm ci 
+        run: npm ci
 
       - name: Build Next.js
         run: npm run build
 
       - name: Prepare artifact
         run: |
-          npm prune --omit=dev   
+          npm prune --omit=dev
           mkdir -p release
           cp -R .next package.json ecosystem.config.js node_modules public release/
           tar -czf release.tar.gz -C release .
@@ -36,13 +36,15 @@ jobs:
           target: "/var/www/frontend"
 
       - name: Deploy on server
-        uses: appleboy/ssh-action@v0.1.7
+        uses: appleboy/ssh-action@v0.1.8
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /var/www/frontend
-            rm -rf .next node_modules public package.json ecosystem.config.js
+            rm -rf .next node_modules public package.json
             tar -xzf release.tar.gz
-            pm2 reload ecosystem.config.js --update-env
+            rm release.tar.gz
+            pm2 delete frontend || true
+            pm2 start ecosystem.config.js
