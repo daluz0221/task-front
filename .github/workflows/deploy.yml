@@ -23,9 +23,7 @@ jobs:
         run: npm ci
 
       - name: Build project
-        run: |
-          npm run build
-          npm run export
+        run: npm run build
 
       # Empaquetar el build y archivos necesarios
       - name: Prepare artifacts
