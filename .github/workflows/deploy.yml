@@ -23,14 +23,14 @@ jobs:
         run: npm ci
 
       - name: Build project
-        run: npm run build
+        run: |
+          npm run build
+          npm run export
 
       # Empaquetar el build y archivos necesarios
       - name: Prepare artifacts
-        run: |
-          tar -czf build.tar.gz .next public package.json package-lock.json ecosystem.config.js
+        run: tar -czf build.tar.gz out
 
-      # Copiar al servidor
       - name: Copy files to server
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -40,8 +40,7 @@ jobs:
           source: "build.tar.gz"
           target: "/var/www/frontend"
 
-      # Extraer, instalar deps y reiniciar PM2
-      - name: Restart PM2
+      - name: Deploy static files
         uses: appleboy/ssh-action@v0.1.8
         with:
           host: ${{ secrets.DEPLOY_HOST }}
@@ -49,7 +48,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /var/www/frontend
-            tar -xzf build.tar.gz
+            rm -rf *
+            tar -xzf build.tar.gz --strip-components=1
             rm build.tar.gz
-            npm ci --omit=dev
-            pm2 reload ecosystem.config.js --update-env
