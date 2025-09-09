@@ -23,20 +23,22 @@ export default function SubTasksPage() {
         }
     }, [fetchSubTasks])
     
-
+    const subTasksToShow = subtasks.filter(  subT => {
+        return !subT.is_completed
+    })
 
     return (
         <div className="max-w-7xl mx-auto pt-4 pb-4 pr-4 lg:px-8">
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8 animate-fade-in-up">
                 {
-                (subtasks.length === 0)
+                (subTasksToShow.length === 0)
                 ? <h2>De momento no tienes Sub tareas</h2>
-                : subtasks.map((subtask) => (
+                : subTasksToShow.map((subtask) => (
                     <SubTaskCard key={ subtask.id } task={subtask} />
                     ))
                 }
             </div>
-            <FloatSubTaskButton colorButton="success" icon="create" addModal={"create"} id="" >
+            <FloatSubTaskButton colorButton="success" icon="create" addModal={"create"} >
 
             </FloatSubTaskButton>
         </div>

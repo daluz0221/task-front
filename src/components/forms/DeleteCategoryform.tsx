@@ -1,22 +1,22 @@
 "use client";
 
-import { useCategoryStore } from "@/store/category-store";
+import { CategoryDetail, useCategoryStore } from "@/store/category-store";
 import { useRouter } from "next/navigation";
 
 interface Props {
     onClose: () => void;
-    id: string
+    category: CategoryDetail
 }
 
 
-export const DeleteCategoryForm = ({ onClose, id }:Props) => {
+export const DeleteCategoryForm = ({ onClose, category }:Props) => {
     const router = useRouter();
 
 
     const deleteCategory = useCategoryStore((state) => state.deleteCategory)
 
     const onDelete = async() => {
-      const ok = await deleteCategory(id);
+      const ok = await deleteCategory(category.id);
       if (ok){
         router.push('/categories/')
       }

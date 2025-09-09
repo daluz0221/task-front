@@ -4,18 +4,19 @@ import React, { useState } from 'react'
 import { CreateModal } from '../modals';
 import { CreateCategoryForm } from '../forms/CreateCategoryForm';
 import { DeleteCategoryForm, UpdateCategoryForm } from '../forms';
+import { CategoryDetail } from '@/store/category-store';
 
 
 interface Props {
   colorButton: string;
   icon: string;
   addModal: string;
-  id: string;
+  category: CategoryDetail;
   ubication?: string
 }
 
 
-export const FloatButton = ({ colorButton, icon, addModal, id, ubication = "6" }:Props) => {
+export const FloatButton = ({ colorButton, icon, addModal, category, ubication = "6" }:Props) => {
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -54,10 +55,10 @@ export const FloatButton = ({ colorButton, icon, addModal, id, ubication = "6" }
              : (
               addModal == "update"
               ? (
-                <UpdateCategoryForm onClose={()=>setIsOpen(false)} id={id} />
+                <UpdateCategoryForm onClose={()=>setIsOpen(false)} category={category} />
               )
               : (
-                <DeleteCategoryForm onClose={()=>setIsOpen(false)} id={id} />
+                <DeleteCategoryForm onClose={()=>setIsOpen(false)} category={category} />
               )
              )
           }

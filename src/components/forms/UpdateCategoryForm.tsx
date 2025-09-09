@@ -1,5 +1,5 @@
 "use client"
-import {  useCategoryStore } from "@/store/category-store";
+import {  CategoryDetail, useCategoryStore } from "@/store/category-store";
 import { useRouter } from "next/navigation";
 
 import { useForm } from "react-hook-form";
@@ -11,19 +11,23 @@ type Inputs = {
 
 interface Props {
     onClose: () => void;
-    id: string
+    category: CategoryDetail
 }
 
-export const UpdateCategoryForm = ({  onClose, id }:Props) => {
+export const UpdateCategoryForm = ({  onClose, category }:Props) => {
 
     const router = useRouter()
 
-    const {register, handleSubmit, formState: {errors}, reset} = useForm<Inputs>();
+    const {register, handleSubmit, formState: {errors}, reset} = useForm<Inputs>({
+        defaultValues: {
+            name: category.name
+        }
+    });
     const updateCategory = useCategoryStore((state) => state.updateCategory);
 
     const onSubmit = async (data: Inputs) => {
         const payload = {
-            id,
+            id: category.id,
             name: data.name
         }
         const updated = await updateCategory(payload)

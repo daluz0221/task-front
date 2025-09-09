@@ -2,18 +2,19 @@
 import { Edit, Plus, Trash2 } from 'lucide-react';
 import React, { useState } from 'react'
 import { CreateModal } from '../modals';
-import { CreateSubTaskForm, DeleteCategoryForm, UpdateCategoryForm } from '../forms';
+import { CreateSubTaskForm, UpdateSubTaskForm } from '../forms';
+import { SubTaskStore } from '@/store/subtask-store';
 
 
 interface Props {
   colorButton: string;
   icon: string;
   addModal: string;
-  id: string;
+  subTask?: SubTaskStore;
 }
 
 
-export const FloatSubTaskButton = ({ colorButton, icon, addModal, id,  }:Props) => {
+export const FloatSubTaskButton = ({ colorButton, icon, addModal, subTask,  }:Props) => {
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -52,10 +53,10 @@ export const FloatSubTaskButton = ({ colorButton, icon, addModal, id,  }:Props) 
              : (
               addModal == "update"
               ? (
-                <UpdateCategoryForm onClose={()=>setIsOpen(false)} id={id} />
+                <UpdateSubTaskForm onClose={()=>setIsOpen(false)} subTask={subTask!} />
               )
               : (
-                <DeleteCategoryForm onClose={()=>setIsOpen(false)} id={id} />
+                <Trash2 size={28} />
               )
              )
           }

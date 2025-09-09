@@ -61,9 +61,9 @@ export default function CategoriesDetailPage() {
             )
         }
         </div>
-          <FloatButton colorButton="warning" icon="update" addModal={"update"} id={category.id} ubication="26"/>
+          <FloatButton colorButton="warning" icon="update" addModal={"update"} category={category} ubication="26"/>
       <div className="flex justify-end gap-2">
-        <FloatButton colorButton="alert" icon="delete" addModal={"delete"} id={category.id} />
+        <FloatButton colorButton="alert" icon="delete" addModal={"delete"} category={category} />
       </div>
     </div>
   )

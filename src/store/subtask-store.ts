@@ -19,11 +19,20 @@ export type SubTaskStore = {
     task_id: string;
 }
 
+type UpdatedSubTask = {
+    id: string;
+    title: string;
+    description: string;
+    is_completed: boolean;
+    task_id: string;
+}
+
 
 type SubTaskState = {
     subtasks: SubTaskStore[];
     fetchSubTasks: () => Promise<void>;
-    addSubTask: (newSubtask: newSubTask) => Promise<boolean|string>
+    addSubTask: (newSubtask: newSubTask) => Promise<boolean|string>;
+    updateSubTask: (subTaskToUpdate: UpdatedSubTask) => Promise<boolean|string>;
 }
 
 
@@ -66,6 +75,29 @@ export const useSubTaskStore = create<SubTaskState>((set) => ({
 
                 return false
             }
+    },
+    updateSubTask: async(subTaskToUpdate: UpdatedSubTask) => {
+
+        const { id, ...rest } = subTaskToUpdate;
+        
+        try {
+            const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/api/subtasks/update/${id}`, {
+                method: "PUT",
+                body: JSON.stringify({
+                    title: rest.title,
+                    description: rest.description,
+                    is_completed: rest.is_completed,
+                    is_deleted: false,
+                    task_id: rest.task_id
+                })
+            });
+            const data = await res.json();
+            console.log(data);
+            return true
+        } catch (error) {
+            console.log(error);
+            return false
+        }
     }
 
 

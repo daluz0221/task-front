@@ -99,7 +99,7 @@ export const CreateSubTaskForm = ({ onSuccess, onClose }:Props) => {
                 </div>
                 
                 <div className="mt-4">
-                    <label className="block text-sm font-medium text-gray-200 mb-2">Categoría</label>
+                    <label className="block text-sm font-medium text-gray-200 mb-2">Tarea</label>
                     <select
                     {...register("task_id", { required: "La categoría es obligatoria" })}
                     className="w-full rounded-lg bg-gray-900 text-white p-2 border border-gray-700"

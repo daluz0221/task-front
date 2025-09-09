@@ -2,6 +2,7 @@
 
 
 
+import { FloatSubTaskButton } from "@/components";
 import { SubTaskStore, useSubTaskStore } from "@/store/subtask-store";
 import { TaskStore, useTaskStore } from "@/store/task-store";
 import Link from "next/link";
@@ -99,6 +100,8 @@ export default function SubTaskDetailPage() {
 
 
       </div>
+
+       <FloatSubTaskButton colorButton="warning" icon="update" addModal={"update"} subTask={subTask}/>
     </div>
   )
 }
