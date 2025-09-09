@@ -11,7 +11,7 @@ interface Props {
   colorButton: string;
   icon: string;
   addModal: string;
-  category: CategoryDetail;
+  category?: CategoryDetail;
   ubication?: string
 }
 
@@ -55,10 +55,10 @@ export const FloatButton = ({ colorButton, icon, addModal, category, ubication =
              : (
               addModal == "update"
               ? (
-                <UpdateCategoryForm onClose={()=>setIsOpen(false)} category={category} />
+                <UpdateCategoryForm onClose={()=>setIsOpen(false)} category={category!} />
               )
               : (
-                <DeleteCategoryForm onClose={()=>setIsOpen(false)} category={category} />
+                <DeleteCategoryForm onClose={()=>setIsOpen(false)} category={category!} />
               )
              )
           }

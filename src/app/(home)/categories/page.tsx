@@ -39,7 +39,7 @@ export default function CategoriesPage() {
                     ))
                 }
            </div>
-           <FloatButton colorButton="success" icon="create" addModal={"create"} id="" >
+           <FloatButton colorButton="success" icon="create" addModal={"create"} >
 
            </FloatButton>
         </div>

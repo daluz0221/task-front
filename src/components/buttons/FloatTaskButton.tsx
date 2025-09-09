@@ -2,18 +2,18 @@
 import { Edit, Plus, Trash2 } from 'lucide-react';
 import React, { useState } from 'react'
 import { CreateModal } from '../modals';
-import { CreateTaskForm, DeleteCategoryForm, UpdateCategoryForm } from '../forms';
+import { CreateTaskForm } from '../forms';
 
 
 interface Props {
   colorButton: string;
   icon: string;
   addModal: string;
-  id: string;
+  id?: string;
 }
 
 
-export const FloatTaskButton = ({ colorButton, icon, addModal, id,  }:Props) => {
+export const FloatTaskButton = ({ colorButton, icon, addModal,   }:Props) => {
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -52,10 +52,10 @@ export const FloatTaskButton = ({ colorButton, icon, addModal, id,  }:Props) => 
              : (
               addModal == "update"
               ? (
-                <UpdateCategoryForm onClose={()=>setIsOpen(false)} id={id} />
+               <Trash2 size={28} />
               )
               : (
-                <DeleteCategoryForm onClose={()=>setIsOpen(false)} id={id} />
+               <Trash2 size={28} />
               )
              )
           }
