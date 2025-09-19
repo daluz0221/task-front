@@ -1,27 +1,33 @@
 "use client"
 import { useSubTaskStore } from "@/store/subtask-store";
 import { useTaskStore } from "@/store/task-store";
-import DatePicker from "react-datepicker";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 
 
 type Inputs = {
     title: string;
     description: string;
-    deadline: string;
     task_id: string;
 }
 
 interface Props {
     onSuccess: () => void;
     onClose: () => void;
+    task_id?: string;
 }
 
 
-export const CreateSubTaskForm = ({ onSuccess, onClose }:Props) => {
+export const CreateSubTaskForm = ({ onSuccess, onClose, task_id = "" }:Props) => {
 
-   const { register, control, handleSubmit, formState: {errors}, reset } =  useForm<Inputs>();
+    console.log(task_id);
+    
+
+   const { register,  handleSubmit, formState: {errors}, reset } =  useForm<Inputs>({
+    defaultValues:{
+        task_id: task_id
+    }
+   });
 
    const {tasks} = useTaskStore();
    const addSubTask = useSubTaskStore((state) => state.addSubTask)
@@ -66,36 +72,6 @@ export const CreateSubTaskForm = ({ onSuccess, onClose }:Props) => {
                     {errors.description && (
                         <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
                     )}
-                </div>
-                <div className="mt-4">
-                    <label className="block text-sm font-medium text-gray-200 mb-2">Deadline</label>
-                    <Controller
-                    control={control}
-                    name="deadline"
-                    rules={{ required: "El deadline es obligatorio" }}
-                    render={({ field, fieldState }) => (
-                        <>
-                        <DatePicker
-                        selected={field.value ? new Date(field.value) : null}
-                        onChange={(date) =>
-                            field.onChange(date ? date.toISOString() : "")
-                        }
-                        showTimeSelect
-                        timeFormat="HH:mm"
-                        timeIntervals={30}
-                        dateFormat="dd/MM/yyyy HH:mm"
-                        className="w-full rounded-lg bg-gray-900 text-white p-2 border border-gray-700"
-                        placeholderText="Selecciona fecha y hora"
-                        />
-                         {fieldState.error && (
-                             <p className="text-red-500 text-sm mt-1">
-                                {fieldState.error.message}
-                            </p>
-                        )}
-                        </>
-                    )}
-                   
-                    />
                 </div>
                 
                 <div className="mt-4">

@@ -1,5 +1,6 @@
 "use client"
 import { useAuthStore } from "@/store/auth-store";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -94,7 +95,7 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen flex items-center justify-center w-100">
         <div className="bg-[var(--borders)] shadow-lg rounded-lg w-full max-w-md p-8">
-            <h2>Register form</h2>
+            <h2 className="font-bold text-center text-2xl">Register</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mt-4">
                     <label htmlFor="email" className="block text-sm font-medium">
@@ -192,6 +193,10 @@ export default function RegisterPage() {
                     Registrarse
                 </button>
             </form>
+             <hr className="mt-5 mb-3" />
+            <div>
+                <span>¿Ya tienes cuenta? <Link href={"/auth/login"}>Inicia sesión!</Link></span>
+            </div>
         </div>
     </div>
   );

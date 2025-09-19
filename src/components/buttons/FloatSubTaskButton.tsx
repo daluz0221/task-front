@@ -11,10 +11,11 @@ interface Props {
   icon: string;
   addModal: string;
   subTask?: SubTaskStore;
+  task_id?: string;
 }
 
 
-export const FloatSubTaskButton = ({ colorButton, icon, addModal, subTask,  }:Props) => {
+export const FloatSubTaskButton = ({ colorButton, icon, addModal, subTask, task_id }:Props) => {
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -48,7 +49,7 @@ export const FloatSubTaskButton = ({ colorButton, icon, addModal, subTask,  }:Pr
           {
              addModal == "create"
              ? (
-               <CreateSubTaskForm onSuccess={() => setIsOpen(false)} onClose={()=>setIsOpen(false)} />
+               <CreateSubTaskForm onSuccess={() => setIsOpen(false)} onClose={()=>setIsOpen(false)} task_id={task_id} />
              )
              : (
               addModal == "update"

@@ -1,11 +1,11 @@
 import { fetchWithAuth } from "@/helpers";
 import { create } from "zustand";
+import { useTaskStore } from "./task-store";
 
 
 type newSubTask = {
     title: string; 
     description: string; 
-    deadline: string; 
     task_id: string;
 }
 
@@ -62,6 +62,9 @@ export const useSubTaskStore = create<SubTaskState>((set) => ({
                 if (data.message == "Sub tarea creada con éxito"){
                 
                     useSubTaskStore.getState().fetchSubTasks();
+                    const datico = await useTaskStore.getState().fetchTaskById(newSubtask.task_id)
+                    console.log(datico);
+                    
                     return true
                 }
                 if (data.error == "Ya existe una subtarea con ese título") {

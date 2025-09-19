@@ -39,6 +39,7 @@ type newTask = {
 
 type TaskState = {
     tasks: TaskStore[];
+    task: TaskStore | null;
     fetchTasks: () => Promise<void>;
     addTask: (newTask: newTask) => Promise<boolean|string>
     fetchTaskById: (id: string) => Promise<TaskStore>
@@ -51,6 +52,7 @@ export const useTaskStore = create<TaskState>((set) => ({
 
 
     tasks: [],
+    task: null,
     fetchTasks: async ()  => {
         try {
             const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/api/tasks/list`);
@@ -69,6 +71,7 @@ export const useTaskStore = create<TaskState>((set) => ({
             if (!res.ok) throw new Error("No se pudo obtener la tarea");
             const data = await res.json();
 
+            set({task: data})
             return data
 
         } catch (error) {

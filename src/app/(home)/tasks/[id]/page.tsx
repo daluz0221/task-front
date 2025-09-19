@@ -1,9 +1,9 @@
 "use client";
 
 
-import { CardSubTask } from "@/components";
+import { CardSubTask, FloatSubTaskButton } from "@/components";
 import { formatDate } from "@/helpers";
-import { TaskStore, useTaskStore } from "@/store/task-store";
+import { Subtasks, useTaskStore } from "@/store/task-store";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -11,16 +11,18 @@ import { useEffect, useState } from "react";
 export default function TaskDetailPage() {
 
   const { id } = useParams<{ id: string }>();
-  const { fetchTaskById } = useTaskStore();
-  const [task, setTask] = useState<TaskStore>();
+  const { fetchTaskById, task } = useTaskStore();
+ 
   const [loading, setLoading] = useState(true)
+
+
 
 
   useEffect(() => {
     const fetchTaskData = async () => {
       try {
-        const res = await fetchTaskById(id);
-        setTask(res)
+      await fetchTaskById(id);
+
       } catch (error) {
         console.log("error con el fetch de tarea", error);
         
@@ -30,11 +32,35 @@ export default function TaskDetailPage() {
     }
 
     fetchTaskData()
-  }, [id, fetchTaskById])
+  }, [id, fetchTaskById]);
   
-  console.log({task});
+ 
 
   const hasSubTasks = task?.subtasks && task.subtasks.length > 0
+
+    let subTasksPending: Subtasks[] = [];
+    let subTasksDone: Subtasks[] = [];
+
+     if (hasSubTasks) {
+        subTasksDone = task.subtasks.filter( subtask => {
+        if (subtask.is_completed) {
+          return subtask
+        }
+      })
+
+ 
+
+      subTasksPending = task.subtasks.filter( subtask => {
+        if (!subtask.is_completed) {
+          return subtask
+        }
+      })  
+     
+    }
+
+
+  
+ 
   
 
   if(loading) return <p>Cargando...</p>
@@ -116,17 +142,34 @@ export default function TaskDetailPage() {
                 <p>Total Subtareas de esta tarea: { task.subtasks.length }</p>
             </div>
             ) }
+              <h4 className="font-semibold mb-4 ">subtareas pendientes</h4>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8 animate-fade-in-up">
                     {
                         hasSubTasks
-                        ? task.subtasks.map((subtask) => (
+                        ? subTasksPending.map((subtask) => (
                             <CardSubTask  key={subtask.id} task={subtask} />
                         ))
                         : (
                             <span>No hay subtareas asocidas a la tarea</span>
                         )
                     }
-                    </div>
+              </div>
+              <h4 className="font-semibold mb-4 "> subtareas hechas</h4>
+             
+               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8 animate-fade-in-up">
+                    {
+                        hasSubTasks
+                        ? subTasksDone.map((subtask) => (
+                            <CardSubTask  key={subtask.id} task={subtask} />
+                        ))
+                        : (
+                            <span>No hay subtareas asocidas a la tarea</span>
+                        )
+                    }
+              </div>
+              <FloatSubTaskButton colorButton="success" icon="create" addModal={"create"} task_id={ task.id } >
+              
+              </FloatSubTaskButton>
           </div>
       </div>
   )

@@ -18,7 +18,7 @@ export default function RootLayout({
       <div className="max-w-7xl mx-auto w-full">
 
         <Header />
-        <main className="pl-4 sm:pl-6 lg:pl-0">
+        <main className="pl-4 sm:pl-6 lg:pl-0 h-[calc(100vh-30%)]">
           {children}
         </main>
       </div>
